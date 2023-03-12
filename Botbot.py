@@ -1,11 +1,14 @@
 import tkinter as tk
+from PIL import ImageTk, Image
 import datetime
 
 
 root = tk.Tk()
 root.title("Botbot")
 
-
+image = Image.open("botbot.png")
+image = image.resize((100, 100), Image.ANTIALIAS)
+photo = ImageTk.PhotoImage(image)
 def send():
     message = e.get().lower()
     e.delete(0, tk.END)
@@ -52,6 +55,7 @@ def check_message_type(message):
 def add_bot_message(message):
     # Ajouter un message de Botbot à la zone de texte
     text.configure(state="normal")
+    text.image_create(tk.END, image=photo)
     text.insert(tk.END, "Botbot: ")
     text.insert(tk.END, message + "\n")
     text.configure(state="disabled")
@@ -71,8 +75,12 @@ e = tk.Entry(root, width=100)
 e.grid(row=1, column=0)
 
 # Créer le bouton pour envoyer un message
-send_button = tk.Button(root, text="Send", command=send)
+send_button = tk.Button(root, text="Send", command=send,bg="blue", fg="white", font=("Helvetica", 12))
 send_button.grid(row=1, column=1)
+
+# Ajouter l'image de chatbot
+bot_image = tk.Label(root, image=photo)
+bot_image.grid(row=2, column=0, columnspan=2, pady=10)
 
 # Ajouter un message de bienvenue
 add_bot_message("Hello! I'm Botbot. How can I help you?")
